@@ -162,6 +162,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install_system_bro
 - 沙箱内运行目标仍受权限、GUI 交互、安装包重启限制；驱动/内核问题和真实打印机/USB/PCI 设备无法被 Windows Sandbox 完整覆盖，需要 Hyper-V/VM 或人工验证；
 - AI 给出的候选原因和命令**可能是错的**。它的价值是把证据摆到你面前、把风险标出来，不是替你承担判断。
 
+## 技术栈
+
+- **界面**：PySide6 6.12 原生 Qt，不是套壳 WebView
+- **主模型**：`deepseek-flash`，开启 thinking，`reasoning_effort=max`
+- **本地模型**：Qwen3-1.7B Q8_0 + llama.cpp CPU 运行时，只做上下文整理与病历归档（`Log/病历/`）
+- **测试**：105 个 pytest，全链路用本地 mock SSE 跑通，不烧真实 token
+
 ## 项目结构
 
 ```text

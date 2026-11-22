@@ -163,6 +163,13 @@ Stating these plainly is more useful than hiding them:
 - Running a target inside the sandbox is still limited by permissions, GUI interaction and installer reboots. Driver/kernel problems and real printer/USB/PCI devices can't be fully covered by Windows Sandbox and need Hyper-V/VM or manual verification.
 - **The AI's candidate causes and commands can be wrong.** Its value is putting the evidence in front of you and marking the risk — not making the judgment call for you.
 
+## Stack
+
+- **UI**: PySide6 6.12, native Qt — not a WebView shell
+- **Main model**: `deepseek-flash` with thinking enabled and `reasoning_effort=max`
+- **Local model**: Qwen3-1.7B Q8_0 on a llama.cpp CPU runtime, used only for context organization and case-record archiving (`Log/病历/`)
+- **Tests**: 105 pytest cases, full chain exercised against a local mock SSE server without spending real tokens
+
 ## Project structure
 
 ```text
