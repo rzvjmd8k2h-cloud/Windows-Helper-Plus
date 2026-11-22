@@ -10,6 +10,18 @@ param(
 )
 
 $ErrorActionPreference = 'Continue'
+
+# Some hosts (CI runners, hardened or nested shells) inherit a PSModulePath that
+# only lists PowerShell 7 locations. Windows PowerShell 5.1 then cannot autoload
+# its own modules and built-in cmdlets such as Get-FileHash disappear. Make sure
+# the interpreter's own module directory is always on the path.
+$defaultModuleDir = Join-Path $PSHOME 'Modules'
+if (-not $env:PSModulePath) {
+    $env:PSModulePath = $defaultModuleDir
+} elseif (($env:PSModulePath -split ';') -notcontains $defaultModuleDir) {
+    $env:PSModulePath = $defaultModuleDir + ';' + $env:PSModulePath
+}
+
 $scriptVersion = '1.0'
 $requestsDir = Join-Path $DataRoot 'requests'
 $responsesDir = Join-Path $DataRoot 'responses'
@@ -90,7 +102,23 @@ function Get-PriviledgedFileEvidence([string]$Target) {
     $hash = $null
     $hashError = $null
     try {
-        $hash = (Get-FileHash -LiteralPath $Target -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
+        if (Get-Command Get-FileHash -ErrorAction SilentlyContinue) {
+            $hash = (Get-FileHash -LiteralPath $Target -Algorithm SHA256 -ErrorAction Stop).Hash.ToLowerInvariant()
+        } else {
+            # Fallback: hash in .NET so a session without the Utility module still works.
+            $sha = [Security.Cryptography.SHA256]::Create()
+            try {
+                $stream = [IO.File]::OpenRead($Target)
+                try {
+                    $bytes = $sha.ComputeHash($stream)
+                } finally {
+                    $stream.Dispose()
+                }
+            } finally {
+                $sha.Dispose()
+            }
+            $hash = ([BitConverter]::ToString($bytes) -replace '-', '').ToLowerInvariant()
+        }
     } catch {
         $hashError = $_.Exception.Message
     }
