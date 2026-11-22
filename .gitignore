@@ -50,3 +50,6 @@ pip-*
 Thumbs.db
 desktop.ini
 *.lnk
+
+# AI assistant workspace data
+.workbuddy-ai/
