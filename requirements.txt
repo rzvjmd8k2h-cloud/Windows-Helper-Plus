@@ -1,0 +1,4 @@
+# Windows Helper Plus 运行依赖
+# 只需要 QtWidgets 等基础模块，安装 PySide6-Essentials 而不是完整 PySide6 附加库，
+# 减少下载体积并加快启动；PySide6 原生样式（windows11 / windowsvista）已包含在内。
+PySide6-Essentials>=6.12.0,<7

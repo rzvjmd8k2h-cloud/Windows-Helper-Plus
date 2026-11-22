@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Build & packaging
+build/
+dist/
+pyarmor.bug.log
+.pyarmor/
+
+# Local configuration & secrets
+config.json
+credentials.bin
+.license_keys/
+*.pem
+*.key
+*.p12
+.env
+
+# Logs, reports, dumps
+Log/
+logs/
+*.log
+*.dmp
+*.mdmp
+
+# Large local assets (download separately, see README)
+/models/*
+!/models/README.md
+/runtime/*
+!/runtime/README.md
+*.gguf
+
+# Local test artifacts
+.runtime/
+.screenshots/
+pytest-of-*/
+pip-*
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+*.lnk
