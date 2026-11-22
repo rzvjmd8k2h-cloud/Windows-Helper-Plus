@@ -9,6 +9,10 @@
 ![UI](https://img.shields.io/badge/UI-PySide6%206.12-41CD52)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+![主界面](docs/images/main-window.png)
+
+<sub>主界面：目标选择、诊断流/思考过程/原始响应三个实时页签、执行计划与诊断结论、证据库、工具与修复动作执行记录。截图取自空闲状态。</sub>
+
 ---
 
 ## 这个项目想解决什么

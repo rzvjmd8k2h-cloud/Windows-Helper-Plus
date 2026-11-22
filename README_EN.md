@@ -9,6 +9,10 @@ English | [简体中文](README.md)
 ![UI](https://img.shields.io/badge/UI-PySide6%206.12-41CD52)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+![Main window](docs/images/main-window.png)
+
+<sub>The main window: target selection, three live tabs (diagnosis stream / thinking / raw response), execution plan and conclusion, the evidence store, and the tool and action log. Captured in idle state.</sub>
+
 ---
 
 ## The problem
