@@ -461,6 +461,7 @@ def build_sandbox_plan(
         "strategic_role": "最后兜底层：静态工具无法证明/复现时，在隔离环境验证行为、驱动、系统文件或未知程序；不直接修改宿主。",
         "capabilities": capabilities,
         "recommended_backend": backend,
+        "prepared": False,
         "estimated_minutes": {"minimum": 20, "maximum": 60},
         "user_confirmation_required": True,
         "auto_start": False,

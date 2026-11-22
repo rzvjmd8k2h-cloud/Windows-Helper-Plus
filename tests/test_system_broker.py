@@ -160,5 +160,12 @@ def test_powershell_broker_script_once(tmp_path):
     assert response["ok"] is True, response.get("error")
     evidence = response["results"][0]
     assert evidence["tool"] == "system_broker_inspect"
-    assert evidence["data"]["sha256"] == hashlib.sha256(target.read_bytes()).hexdigest()
+    data = evidence["data"]
+    expected = hashlib.sha256(target.read_bytes()).hexdigest()
+    assert data["sha256"] == expected, (
+        f"sha256_error={data.get('sha256_error')!r} "
+        f"evidence_ok={evidence.get('ok')!r} "
+        f"signature={data.get('signature_status')!r} "
+        f"summary={evidence.get('summary')!r}"
+    )
     assert not (requests / f"req-{nonce}.json").exists()

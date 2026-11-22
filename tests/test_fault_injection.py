@@ -52,6 +52,11 @@ def _copy_python_exe(destination: Path) -> Path:
     return destination
 
 
+def _interpreter_dll_name() -> str:
+    """当前解释器对应的 python3xx.dll 名称，避免写死版本号。"""
+    return f"python{sys.version_info.major}{sys.version_info.minor}.dll"
+
+
 def _missing_python_dll(tmp_path: Path) -> tuple[Path, ToolResult]:
     exe = _copy_python_exe(tmp_path / _APP_DIR / "app.exe")
     result = create_registry().invoke(
@@ -66,7 +71,7 @@ def test_missing_dll_detected_and_repaired(tmp_path):
     exe, before = _missing_python_dll(tmp_path)
     missing = [name.lower() for name in before.data["missing_dlls"]]
     assert missing, "构造的 exe 应当缺少至少一个依赖 DLL"
-    assert "python314.dll" in missing or any(name.startswith("python") for name in missing)
+    assert _interpreter_dll_name() in missing or any(name.startswith("python") for name in missing)
     # API Set 契约不能被误报为缺失 DLL。
     assert not any(name.startswith(("api-ms-win-", "ext-ms-")) for name in missing)
     assert "缺失" in before.summary and "app.exe" in before.summary
@@ -278,7 +283,7 @@ def test_file_locks_reports_loaded_module():
 # --------------------------------------------------------------------- 场景 7
 def test_wrong_bitness_dll_is_flagged(tmp_path):
     exe = _copy_python_exe(tmp_path / _APP_DIR / "app.exe")
-    dll_name = "python314.dll"
+    dll_name = _interpreter_dll_name()
     wow64_dll = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "SysWOW64" / "kernel32.dll"
     if not wow64_dll.exists():
         pytest.skip("缺少 32 位系统 DLL")
