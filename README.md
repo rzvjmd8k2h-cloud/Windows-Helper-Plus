@@ -1,5 +1,7 @@
 # Windows Helper Plus Beta 0.2
 
+[English](README_EN.md) | 简体中文
+
 **AI 驱动的 Windows 全对象诊断、交互式问题定位与受控修复。**
 
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4)
